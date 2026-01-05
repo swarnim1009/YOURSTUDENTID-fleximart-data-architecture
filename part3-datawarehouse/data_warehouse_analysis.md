@@ -1,386 +1,68 @@
-\## Data Warehouse Analysis - FlexiMart
+# Data Warehouse Analysis - FlexiMart
 
-
-
-\## Section A: Purpose of Data Warehouse
-
-The data warehouse consolidates data from multiple sources (customers, products, sales) into a central repository.  
-
-Key benefits:
-
-\- Enables historical analysis of sales, products, and customer behavior.
-
-\- Supports business intelligence (BI) and reporting.
-
-\- Provides a single source of truth for analytics.
-
-
+**Student Name:** Swarnim Bhawsar  
+**Student ID:** 25071263  
 
 ---
 
-
-
-\## Section B: Star Schema Design
-
-
-
-\### 1. Fact Table: `sales\_fact`
-
-\*\*Contains transactional data for analytics.\*\*
-
-
-
-| Column            | Description                          |
-
-|------------------|--------------------------------------|
-
-| transaction\_id    | Unique ID for each sale              |
-
-| customer\_id       | Links to customer dimension          |
-
-| product\_id        | Links to product dimension           |
-
-| quantity          | Number of units sold                 |
-
-| unit\_price        | Price per unit at transaction        |
-
-| total\_amount      | Calculated as quantity \* unit\_price  |
-
-| transaction\_date  | Date of transaction                  |
-
-| status            | Completed, Pending, or Cancelled     |
-
-
-
-\### 2. Dimension Tables
-
-
-
-\*\*Customer Dimension: `dim\_customer`\*\*
-
-
-
-| Column         | Description                  |
-
-|----------------|------------------------------|
-
-| customer\_id    | Unique ID                    |
-
-| first\_name     | Customer first name          |
-
-| last\_name      | Customer last name           |
-
-| email          | Email address                |
-
-| phone          | Contact number               |
-
-| city           | City                         |
-
-| registration\_date | Date of joining           |
-
-
-
-\*\*Product Dimension: `dim\_product`\*\*
-
-
-
-| Column        | Description                  |
-
-|---------------|------------------------------|
-
-| product\_id    | Unique product ID            |
-
-| product\_name  | Name of product              |
-
-| category      | Product category             |
-
-| subcategory   | Product subcategory          |
-
-| price         | Current price                |
-
-| stock\_quantity| Available stock              |
-
-
-
-\*\*Date Dimension: `dim\_date`\*\* \*(optional, for analytics)\*
-
-
-
-| Column        | Description                  |
-
-|---------------|------------------------------|
-
-| date\_id       | Unique date ID               |
-
-| date          | Actual date                  |
-
-| day           | Day of month                 |
-
-| month         | Month number                 |
-
-| quarter       | Quarter number               |
-
-| year          | Year                         |
-
-| weekday       | Day of week                  |
-
-
+## Section A: Star Schema Design
+
+### Fact Table: `sales_fact`
+- **Primary Key:** `sale_id`
+- **Measures:** `quantity_sold`, `total_price`, `discount`
+- **Foreign Keys:** `product_id`, `customer_id`, `store_id`, `date_id`
+
+### Dimension Tables:
+1. **Product Dimension (`dim_product`)**
+   - `product_id`, `name`, `category`, `subcategory`, `brand`, `price`
+2. **Customer Dimension (`dim_customer`)**
+   - `customer_id`, `name`, `email`, `gender`, `city`, `state`, `country`
+3. **Store Dimension (`dim_store`)**
+   - `store_id`, `store_name`, `location`, `manager_name`
+4. **Date Dimension (`dim_date`)**
+   - `date_id`, `date`, `day`, `month`, `quarter`, `year`, `weekday`
 
 ---
 
-
-
-\## Section C: ETL Process Overview
-
-
-
-1\. \*\*Extract:\*\*  
-
-&nbsp;  - Load `customers\_raw.csv`, `products\_raw.csv`, `sales\_raw.csv`.
-
-
-
-2\. \*\*Transform:\*\*  
-
-&nbsp;  - Clean missing values and duplicates.  
-
-&nbsp;  - Normalize product categories and customer data.  
-
-&nbsp;  - Convert dates to consistent format (`YYYY-MM-DD`).  
-
-&nbsp;  - Calculate `total\_amount` in sales fact table.
-
-
-
-3\. \*\*Load:\*\*  
-
-&nbsp;  - Load cleaned data into the data warehouse tables (`fact\_sales`, `dim\_customer`, `dim\_product`, `dim\_date`).
-
-
-
----
-
-
-
-\## Section D: Analytics Use Cases
-
-
-
-\- Total sales by month, product, or category.  
-
-\- Top-selling products and revenue contribution.  
-
-\- Customer purchase patterns and segmentation.  
-
-\- Inventory planning and stock optimization.  
-
-
-
----
-
-
-
-\## Section E: Benefits
-
-
-
-\- Centralized reporting and decision-making.  
-
-\- Historical trend analysis for marketing and sales strategies.  
-
-\- Easier integration with BI tools like Tableau or Power BI.  
-
-&nbsp;Data Warehouse Analysis - FlexiMart
-
-
-
-\## Section A: Purpose of Data Warehouse
-
-The data warehouse consolidates data from multiple sources (customers, products, sales) into a central repository.  
-
-Key benefits:
-
-\- Enables historical analysis of sales, products, and customer behavior.
-
-\- Supports business intelligence (BI) and reporting.
-
-\- Provides a single source of truth for analytics.
-
-
-
----
-
-
-
-\## Section B: Star Schema Design
-
-
-
-\### 1. Fact Table: `sales\_fact`
-
-\*\*Contains transactional data for analytics.\*\*
-
-
-
-| Column            | Description                          |
-
-|------------------|--------------------------------------|
-
-| transaction\_id    | Unique ID for each sale              |
-
-| customer\_id       | Links to customer dimension          |
-
-| product\_id        | Links to product dimension           |
-
-| quantity          | Number of units sold                 |
-
-| unit\_price        | Price per unit at transaction        |
-
-| total\_amount      | Calculated as quantity \* unit\_price  |
-
-| transaction\_date  | Date of transaction                  |
-
-| status            | Completed, Pending, or Cancelled     |
-
-
-
-\### 2. Dimension Tables
-
-
-
-\*\*Customer Dimension: `dim\_customer`\*\*
-
-
-
-| Column         | Description                  |
-
-|----------------|------------------------------|
-
-| customer\_id    | Unique ID                    |
-
-| first\_name     | Customer first name          |
-
-| last\_name      | Customer last name           |
-
-| email          | Email address                |
-
-| phone          | Contact number               |
-
-| city           | City                         |
-
-| registration\_date | Date of joining           |
-
-
-
-\*\*Product Dimension: `dim\_product`\*\*
-
-
-
-| Column        | Description                  |
-
-|---------------|------------------------------|
-
-| product\_id    | Unique product ID            |
-
-| product\_name  | Name of product              |
-
-| category      | Product category             |
-
-| subcategory   | Product subcategory          |
-
-| price         | Current price                |
-
-| stock\_quantity| Available stock              |
-
-
-
-\*\*Date Dimension: `dim\_date`\*\* \*(optional, for analytics)\*
-
-
-
-| Column        | Description                  |
-
-|---------------|------------------------------|
-
-| date\_id       | Unique date ID               |
-
-| date          | Actual date                  |
-
-| day           | Day of month                 |
-
-| month         | Month number                 |
-
-| quarter       | Quarter number               |
-
-| year          | Year                         |
-
-| weekday       | Day of week                  |
-
-
-
----
-
-
-
-\## Section C: ETL Process Overview
-
-
-
-1\. \*\*Extract:\*\*  
-
-&nbsp;  - Load `customers\_raw.csv`, `products\_raw.csv`, `sales\_raw.csv`.
-
-
-
-2\. \*\*Transform:\*\*  
-
-&nbsp;  - Clean missing values and duplicates.  
-
-&nbsp;  - Normalize product categories and customer data.  
-
-&nbsp;  - Convert dates to consistent format (`YYYY-MM-DD`).  
-
-&nbsp;  - Calculate `total\_amount` in sales fact table.
-
-
-
-3\. \*\*Load:\*\*  
-
-&nbsp;  - Load cleaned data into the data warehouse tables (`fact\_sales`, `dim\_customer`, `dim\_product`, `dim\_date`).
-
-
-
----
-
-
-
-\## Section D: Analytics Use Cases
-
-
-
-\- Total sales by month, product, or category.  
-
-\- Top-selling products and revenue contribution.  
-
-\- Customer purchase patterns and segmentation.  
-
-\- Inventory planning and stock optimization.  
-
-
-
----
-
-
-
-\## Section E: Benefits
-
-
-
-\- Centralized reporting and decision-making.  
-
-\- Historical trend analysis for marketing and sales strategies.  
-
-\- Easier integration with BI tools like Tableau or Power BI.  
-
-
+## Section B: ETL Process Overview
+
+1. **Extract**
+   - Data is extracted from **RDBMS tables**: `products`, `customers`, `orders`.
+
+2. **Transform**
+   - Clean null values, correct data types, and standardize formats (e.g., dates, prices).
+   - Calculate derived fields such as `total_price = quantity_sold * unit_price - discount`.
+   - Map product, customer, and store IDs to their respective dimension tables.
+   - Aggregate or summarize data if needed for reporting.
+
+3. **Load**
+   - Load transformed data into the **fact table** (`sales_fact`) and dimension tables (`dim_product`, `dim_customer`, `dim_store`, `dim_date`).
+   - Ensure referential integrity between fact and dimension tables.
+   - Perform incremental loads to update the warehouse regularly without overwriting historical data.
+
+   ## Section C: OLAP Analysis / Queries
+
+### Example 1: Total Sales by Product Category
+```sql
+SELECT p.category, SUM(f.total_price) AS total_sales
+FROM sales_fact f
+JOIN dim_product p ON f.product_id = p.product_id
+GROUP BY p.category
+ORDER BY total_sales DESC;
+
+### Example 2: Monthly Sales Trend
+
+SELECT MONTH(d.date) AS month, SUM(f.total_price) AS total_sales
+FROM sales_fact f
+JOIN dim_date d ON f.date_id = d.date_id
+GROUP BY MONTH(d.date)
+ORDER BY month;
+
+###Example 3: Top 5 Customers by Total Purchase
+SELECT c.customer_id, c.name, SUM(f.total_price) AS total_spent
+FROM sales_fact f
+JOIN dim_customer c ON f.customer_id = c.customer_id
+GROUP BY c.customer_id, c.name
+ORDER BY total_spent DESC
+LIMIT 5;
 
